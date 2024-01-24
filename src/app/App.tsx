@@ -1,4 +1,4 @@
-import { PagesPoint } from "../pages";
+import { Pages } from "../pages";
 import { AppThemeProvider } from "./provider/AppThemeProvider.tsx";
 import { AppQueryProvider } from "./provider/QueryProvider.tsx";
 
@@ -7,7 +7,7 @@ function App() {
     <>
       <AppQueryProvider>
         <AppThemeProvider>
-          <PagesPoint />
+          <Pages />
         </AppThemeProvider>
       </AppQueryProvider>
     </>
