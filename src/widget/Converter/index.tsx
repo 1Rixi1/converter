@@ -1,66 +1,48 @@
-import {useQuery} from "@tanstack/react-query";
-import {currencyService} from "../../shared/api";
-import {Box, Button, CircularProgress, Typography} from "@mui/material";
-import {ConverterForm} from "../../features/ConverterForm";
-import {mapConverter} from "./lib/mapper.ts";
+import { useQuery } from "@tanstack/react-query";
+import { currencyService } from "../../shared/api";
+import { Box, CircularProgress, Typography } from "@mui/material";
 
-import s from './converter.module.css'
-import {CountInput} from "../../features/CountInput";
-import {ChangeEvent} from "react";
+import s from "./converter.module.css";
+import { AppForm, DataFormType } from "../../features/form";
+import { mapConverter } from "./lib/mapper.ts";
+import { useState } from "react";
+import { convertRate } from "../../shared/util/convert/convert.ts";
 
 export const Converter = () => {
-  const {isLoading, data} = useQuery({
-    queryKey: ['currencyRate'],
-    queryFn: currencyService.getCurrency,
-    select: (data) => data.data
-  })
+  const [resultConverter, setResultConverter] = useState<null | string>("");
 
+  const { isLoading, data } = useQuery({
+    queryKey: ["currencyRate"],
+    queryFn: currencyService.getCurrency,
+    select: (data) => data.data,
+  });
+
+  const onSubmitHandleForm = (currentData: DataFormType) => {
+    console.log(data);
+
+    const result = convertRate(
+      currentData.input,
+      data[currentData.from],
+      data[currentData.to],
+    );
+
+    setResultConverter(
+      `${currentData.input} ${currentData.from} = ${result.toFixed(3)} ${currentData.to}`,
+    );
+  };
 
   if (isLoading) {
-    return (
-      <CircularProgress/>
-    )
-  }
-
-  const onSubmitHandler = (e: ChangeEvent<HTMLFormElement>) => {
-    e.preventDefault()
-
-    const formData = new FormData(e.target)
-    console.log({
-      from: formData.get('from'),
-      to: formData.get('to'),
-      count: formData.get('count')
-    })
-
-  }
-
-  const onCountChange = (value: string) => {
-    console.log(value)
-  }
-
-  const onFromChange = (value: string) => {
-    console.log(value)
-  }
-  const onToChange = (value: string) => {
-    console.log(value)
+    return <CircularProgress />;
   }
 
   return (
-    <Box>
-      <Typography variant={'h4'}>Converter</Typography>
-      <Box>
-        <Box className={s.boxForm} component={'form'} autoComplete={'off'} onSubmit={onSubmitHandler}>
-          <CountInput onChange={onCountChange} label={'current-count'} id={'current-count-id'} name={'count'}/>
-          <ConverterForm domainData={mapConverter(data)} onChange={onFromChange} id={'converter-form-id'}
-                         name={'from'}/>
-          <ConverterForm domainData={mapConverter(data)} onChange={onToChange} id={'converter-form-id'}
-                         name={'to'}/>
-
-          <Button className={s.button} variant={'contained'} type={'submit'}>Конвертировать</Button>
-
-        </Box>
+    <Box className={s.box}>
+      <Typography variant={"h4"}>Конвертер Валют</Typography>
+      <Box className={s.boxForm}>
+        <AppForm data={mapConverter(data)} onSubmit={onSubmitHandleForm} />
       </Box>
-    </Box>
-  )
 
-}
+      {resultConverter && <Typography>{resultConverter}</Typography>}
+    </Box>
+  );
+};

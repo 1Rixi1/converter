@@ -6,16 +6,16 @@ type Props = {
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#34e7e4",
-      dark: "#00d8d6",
+      main: "#575fcf",
+      dark: "#3c40c6",
     },
     secondary: {
       main: "#d2dae2",
       dark: "#808e9b",
     },
     info: {
-      main: "#575fcf",
-      dark: "#3c40c6",
+      main: "#34e7e4",
+      dark: "#00d8d6",
     },
     success: {
       main: "#0be881",
