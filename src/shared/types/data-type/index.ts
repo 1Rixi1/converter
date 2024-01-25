@@ -1,1 +1,1 @@
-export * from "./data-type.ts";
+export * from "./rate-type.ts";

@@ -6,9 +6,8 @@ export const convertRate = (
   const amountNumber = Number(amount);
   const rateFromNumber = Number(rateFrom);
   const rateToNumber = Number(rateTo);
-
   if (isNaN(amountNumber) || isNaN(rateFromNumber) || isNaN(rateToNumber))
     return -1;
 
-  return amountNumber * (rateToNumber / rateFromNumber);
+  return (amountNumber * (rateToNumber / rateFromNumber)).toFixed(3);
 };

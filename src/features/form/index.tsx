@@ -13,10 +13,11 @@ export type DataFormType = {
 
 type Props = {
   data: DomainDataType;
+  buttonLabel: string;
   onSubmit: (data: DataFormType) => void;
 };
 
-export const AppForm = ({ data, onSubmit }: Props) => {
+export const AppForm = ({ data, buttonLabel, onSubmit }: Props) => {
   const {
     register,
     handleSubmit,
@@ -50,7 +51,7 @@ export const AppForm = ({ data, onSubmit }: Props) => {
         />
 
         <Button variant={"contained"} type="submit">
-          Конвертировать
+          {buttonLabel}
         </Button>
       </Box>
     </form>

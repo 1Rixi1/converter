@@ -1,4 +1,4 @@
-export type DataType = {
+export type RateType = {
   [key: string]: number;
 };
 
